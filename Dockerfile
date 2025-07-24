@@ -9,10 +9,14 @@ RUN apt-get update && apt-get install -y \
     xdg-utils libu2f-udev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt install ./google-chrome-stable_current_amd64.deb -y && \
-    rm google-chrome-stable_current_amd64.deb
+# Install Chrome properly
+RUN apt-get update && \
+    apt-get install -y wget gnupg2 curl && \
+    curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set display port to avoid crash
 ENV DISPLAY=:99

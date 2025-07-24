@@ -18,16 +18,16 @@ RUN apt-get update && \
     apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# Set display port to avoid crash
+# Set display env (for headless Chrome)
 ENV DISPLAY=:99
 
-# Install Python dependencies
+# Copy your project files
+COPY . /app
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
 
-# Copy code
-COPY . .
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Run your script
 CMD ["python", "main.py"]
+

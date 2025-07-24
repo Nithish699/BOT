@@ -1,0 +1,5 @@
+selenium==4.21.0
+undetected-chromedriver
+schedule
+python-dotenv==1.0.1
+
